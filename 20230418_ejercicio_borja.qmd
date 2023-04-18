@@ -1,0 +1,151 @@
+---
+title: "01-ejercicios_visualizacion"
+author: "Curso RTVE"
+format: html
+editor: visual
+---
+
+**Ejercicio 1**. A partir del dataset del Ayuntamiento de Madrid sobre tipos de salidas, haz un gráfico de barras en el que se observen los principales motivos.
+
+```{r}
+library(tidyverse)
+url_dataset_1 <- 
+  "https://raw.githubusercontent.com/borjandrinot/R-tve-course/main/data_raw/data_bomberos_long.csv?token=GHSAT0AAAAAACBGV6DD3CKXQYP3D4STFQ6WZBVASHA"
+
+to_plot <-
+  dataset_1 |>  
+  group_by(tipo_salida) |>
+  summarise(salidas = sum(salidas)) |> 
+  ungroup()
+  
+ggplot(to_plot) +
+  geom_col(aes(x = tipo_salida, y = salidas)) +
+  coord_flip() +
+  theme_minimal()
+  
+
+```
+
+**Ejercicio 2**. Añade color a la visualización para resaltar los tipos de salidas con mayor incidencia. Cambia el título y el de los ejes, añade la fuente de los datos.
+
+```{r}
+
+to_plot |>
+  ggplot() +
+  geom_col(aes(x = tipo_salida, y = salidas, fill = salidas))+
+  geom_hline(yintercept = 0)+
+  scale_fill_distiller(palette = "Reds", direction = 1)+
+  labs(title = "Salidas de los bomberos de Madrid en 2022",
+       caption = Ayuntamiento de Madrid,
+       x = "", y = "")+
+  coord_flip() +
+theme_minimal()+
+theme(plot.title.position = "plot",
+      plot.caption.position = "plot",
+      plot.caption =  = element_text(color = ))
+
+```
+
+**Ejercicio 3**. A partir del dataset de salidas mensuales por tipo de salida, haz un gráfico que represente la evolución mensual de estos datos
+
+```{r}
+
+url_dataset_2 <- 
+  "https://raw.githubusercontent.com/borjandrinot/R-tve-course/main/data_raw/data_bomberos_monthly.csv"
+
+dataset_2<-
+  read_csv(url_dataset_2)
+
+dataset_2 |> 
+  ggplot()+
+  geom_line(aes(x = date, y = salidas,
+            group = tipo_salida))+
+  geom_hline(yintercept = 0, size = 0.3)+
+  geom_vline(xintercept = ymd("2022-06-01"),
+             size = 0.3,
+             color = "red")
+  
+
+
+```
+
+**Ejercicio 4**. Utiliza alguno de los parámetros del aesthetics para destacar dos tipos de salida y escribe un párrafo contando qué te llama la atención de ellos.
+
+```{r}
+
+url_dataset_2 <- 
+  "https://raw.githubusercontent.com/borjandrinot/R-tve-course/main/data_raw/data_bomberos_monthly.csv"
+
+dataset_2 <- 
+  read_csv(url_dataset_2)
+```
+
+**Ejercicio 5**. Intenta hacer el gráfico anterior, pero ahora con una interpolación por pasos. Además, añádele puntos en cada paso para observar mejor cada mes.
+
+```{r}
+
+url_dataset_2 <- 
+  "https://raw.githubusercontent.com/borjandrinot/R-tve-course/main/data_raw/data_bomberos_monthly.csv"
+
+dataset_2 <- 
+  read_csv(url_dataset_2)
+```
+
+**Ejercicio 6**. Representa en un gráfico el resultado total de las elecciones de Andalucía. ¿Puedes colorear por cada partido?
+
+```{r}
+
+url_dataset_3 <- 
+  "https://raw.githubusercontent.com/borjandrinot/R-tve-course/main/data_raw/2022_andalucia_voto_total.csv"
+
+dataset_3 <- 
+  read_csv(url_dataset_3)
+```
+
+**Ejercicio 7.** Intenta replicar este gráfico a partir del dataset propuesto.
+
+![](images/resultados_provs_andalucia.png)
+
+```{r}
+
+```
+
+**Ejercicio 8**. Realiza este mismo gráfico para tipo de municipio.
+
+```{r}
+
+```
+
+**Ejercicio 9**. Con los datos del ejercicio anterior busca otro tipo de gráfico para representar el voto por tipo de municipio para cada partido
+
+```{r}
+
+```
+
+**Ejercicio 10**. A partir de los datos por municipio de las últimas elecciones de Andalucía elige un gráfico y escribe un párrafo con alguna cuestión interesante que observes en él.
+
+```{r}
+
+```
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
